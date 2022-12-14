@@ -17,15 +17,16 @@ const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
 const login_guard_1 = require("./common/guards/login.guard");
 const authenticated_guard_1 = require("./common/guards/authenticated.guard");
+const auth_exceptions_filter_1 = require("./common/filters/auth-exceptions.filter");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
-    async login(res) {
-        return res.redirect('/home');
-    }
     index(req) {
         return { message: req.flash('loginError') };
+    }
+    async login(res) {
+        return res.redirect('/home');
     }
     getHome(req) {
         return { user: req.user };
@@ -38,10 +39,15 @@ let AppController = class AppController {
             res.redirect('/');
         });
     }
-    getHello(req) {
-        return req.user;
-    }
 };
+__decorate([
+    (0, common_1.Get)('/'),
+    (0, common_1.Render)('login'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], AppController.prototype, "index", null);
 __decorate([
     (0, common_1.UseGuards)(login_guard_1.LoginGuard),
     (0, common_1.Post)('/login'),
@@ -50,14 +56,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "login", null);
-__decorate([
-    (0, common_1.Get)('/'),
-    (0, common_1.Render)('login'),
-    __param(0, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], AppController.prototype, "index", null);
 __decorate([
     (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
     (0, common_1.Get)('/home'),
@@ -84,15 +82,9 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "logout", null);
-__decorate([
-    (0, common_1.Get)('protected'),
-    __param(0, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
+    (0, common_1.UseFilters)(auth_exceptions_filter_1.AuthExceptionFilter),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 exports.AppController = AppController;

@@ -3,10 +3,10 @@ import { Response } from 'express';
 export declare class AppController {
     private readonly appService;
     constructor(appService: AppService);
-    login(res: Response): Promise<void>;
     index(req: any): {
-        message: any;
+        message: string;
     };
+    login(res: Response): Promise<void>;
     getHome(req: any): {
         user: any;
     };
@@ -14,5 +14,4 @@ export declare class AppController {
         user: any;
     };
     logout(req: any, res: Response): any;
-    getHello(req: any): string;
 }

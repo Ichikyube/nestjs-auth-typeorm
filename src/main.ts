@@ -9,7 +9,7 @@ import * as passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.use( 
+  app.use(
     session({
       secret: 'keyboard cat',
       resave: false,

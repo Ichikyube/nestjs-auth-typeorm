@@ -7,26 +7,27 @@ import {
   Render,
   Request,
   Req,
+  UseFilters,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 import { LoginGuard } from './common/guards/login.guard';
 import { AuthenticatedGuard } from './common/guards/authenticated.guard';
+import { AuthExceptionFilter } from './common/filters/auth-exceptions.filter';
 
 @Controller()
+@UseFilters(AuthExceptionFilter)
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
+  @Get('/')
+  @Render('login')
+  index(@Req() req): { message: string } {
+    return { message: req.flash('loginError') };
+  }
   @UseGuards(LoginGuard)
   @Post('/login')
   async login(@Res() res: Response) {
     return res.redirect('/home');
-  }
-
-  @Get('/')
-  @Render('login')
-  index(@Req() req) {
-    return { message: req.flash('loginError') };
   }
 
   @UseGuards(AuthenticatedGuard)
@@ -48,9 +49,5 @@ export class AppController {
     return req.logout(() => {
       res.redirect('/');
     });
-  }
-  @Get('protected')
-  getHello(@Request() req): string {
-    return req.user;
   }
 }
