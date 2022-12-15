@@ -1,4 +1,3 @@
-
 import {
   Body,
   Controller,
@@ -38,5 +37,4 @@ export class UsersController {
   createUsers(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
-  
 }

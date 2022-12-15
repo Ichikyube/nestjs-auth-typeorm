@@ -31,6 +31,9 @@ let AppController = class AppController {
     getHome(req) {
         return { user: req.user };
     }
+    root() {
+        return {};
+    }
     getProfile(req) {
         return { user: req.user };
     }
@@ -65,6 +68,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getHome", null);
+__decorate([
+    (0, common_1.Get)('/store'),
+    (0, common_1.Render)('store'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "root", null);
 __decorate([
     (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
     (0, common_1.Get)('/profile'),

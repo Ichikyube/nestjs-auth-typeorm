@@ -37,6 +37,12 @@ export class AppController {
     return { user: req.user };
   }
 
+  @Get('/store')
+  @Render('store')
+  root() {
+    return {};
+  }
+
   @UseGuards(AuthenticatedGuard)
   @Get('/profile')
   @Render('profile')

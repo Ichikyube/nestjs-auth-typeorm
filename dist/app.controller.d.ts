@@ -10,6 +10,7 @@ export declare class AppController {
     getHome(req: any): {
         user: any;
     };
+    root(): {};
     getProfile(req: any): {
         user: any;
     };
